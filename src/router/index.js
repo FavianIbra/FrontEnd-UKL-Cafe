@@ -45,7 +45,7 @@ const routes = [
   {
     path: '/ongoing',
     component: OnGoing
-  }
+  },
 ]
 
 const router = new VueRouter({

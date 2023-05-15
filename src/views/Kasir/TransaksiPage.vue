@@ -72,7 +72,7 @@
                         <tbody>
                             <tr v-for="(menu, nomor) in cart" :key="nomor">
                                 <td>{{ nomor + 1 }}</td>
-                                <td>{{ menu.nama }}</td>
+                                <td>{{ menu.nama_menu }}</td>
                                 <td>{{ menu.total_pesanan }}</td>
                                 <td>{{ menu.total_harga }}</td>
                             </tr>
@@ -274,7 +274,7 @@ export default {
                                         title: 'Success'
                                     })
                                     setTimeout(() => {
-                                        location.reload()
+                                        location.href="/ongoing"
                                     }, 1200);
                                 }
                             )

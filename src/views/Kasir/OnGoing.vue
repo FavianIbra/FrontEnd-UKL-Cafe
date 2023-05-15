@@ -68,7 +68,7 @@
                                     <i class="fa fa-3x fa-utensils text-primary mb-4"></i>
                                     <h5>Meja Nomor : {{ meja.nomor_meja }}</h5>
                                     <p>
-                                        <span v-if="meja.status == 'digunakan'" class="badge bg-danger">Di Gunakan</span>
+                                        <span v-if="meja.status == 'Digunakan'" class="badge bg-danger">Di Gunakan</span>
                                     </p>
                                 </div>
                             </div>

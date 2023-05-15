@@ -71,11 +71,11 @@
                                     <div class="col-lg-6">
                                         <div class="d-flex align-items-center">
                                             <img class="flex-shrink-0 img-fluid rounded"
-                                                :src="'http://localhost/UKL-Cafe/cafelaravel/public/images/' + menu.foto"
+                                                :src="'http://localhost/UKL_Kasir/uklcafe/public/images/' + menu.foto"
                                                 alt="Kopi mas" style="width: 80px;">
                                             <div class="w-100 d-flex flex-column text-start ps-4">
                                                 <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                                    <span>{{ menu.nama }} <button class="btn btn-outline-primary"
+                                                    <span>{{ menu.nama_menu }} <button class="btn btn-outline-primary"
                                                             data-bs-toggle="modal" @click="getdetail(menu)"
                                                             data-bs-target="#addmenu"><i
                                                                 class="bi bi-cart-plus-fill"></i></button></span>
@@ -175,7 +175,7 @@
                         <form @submit.prevent="addtocart">
                             <div class="modal-body">
                                 <label for="nama">Nama:</label>
-                                <input type="text" class="form-control" v-model="detailmenu.nama">
+                                <input type="text" class="form-control" v-model="detailmenu.nama_menu">
                                 <input type="hidden" v-model="detailmenu.id_menu">
 
                                 <label for="jumlah">Jumlah:</label>
@@ -207,7 +207,7 @@ export default {
             menu: {},
             datamenu: {},
             detailmenu: {
-                nama: '',
+                nama_menu: '',
                 id_menu: ''
             },
             jumlah: '',
@@ -225,7 +225,7 @@ export default {
         filter_menu() {
             let filter_data = this.datamenu
             if (this.carimenu) {
-                filter_data = filter_data.filter(menu => menu.nama.toString().toLowerCase().includes(this.carimenu.toLowerCase()))
+                filter_data = filter_data.filter(menu => menu.nama_menu.toString().toLowerCase().includes(this.carimenu.toLowerCase()))
             }
             return filter_data
         }
@@ -246,7 +246,7 @@ export default {
                     (response) => {
                         console.log(response)
                         this.detailmenu.id_menu = response.data[0].id_menu
-                        this.detailmenu.nama = response.data[0].nama
+                        this.detailmenu.nama_menu = response.data[0].nama_menu
                         // this.image = response.data[0].foto
                         this.detailmenu.jenis = response.data[0].jenis
                         this.detailmenu.harga = response.data[0].harga

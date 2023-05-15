@@ -62,8 +62,9 @@
 
                     <button class="btn btn-outline-dark mb-4" data-bs-toggle="modal" data-bs-target="#addmenu"><i
                             class="bi bi-cart-plus-fill"></i></button>
-
+                        <!-- SEARCH MENU -->
                     <input type="text" class="form-control mb-4" v-model="carimenu" placeholder="Search menu...">
+
                     <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.1s">
 
                         <div class="tab-content">
@@ -77,7 +78,7 @@
                                                 alt="Kopi mas" style="width: 80px;">
                                             <div class="w-100 d-flex flex-column text-start ps-4">
                                                 <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                                    <span>{{ menu.nama }} <button class="btn btn-outline-primary"
+                                                    <span>{{ menu.nama_menu }} <button class="btn btn-outline-primary"
                                                             data-bs-toggle="modal" @click="getdetail(menu)"
                                                             data-bs-target="#editmenu"><i
                                                                 class="bi bi-gear-fill"></i></button></span>
@@ -180,7 +181,7 @@
                             <div class="modal-body">
 
                                 <label for="nama">Nama Menu:</label>
-                                <input type="text" class="form-control" v-model="menu.nama" required autocomplete="off"
+                                <input type="text" class="form-control" v-model="menu.nama_menu" required autocomplete="off"
                                     placeholder="Masukkan menu...">
 
                                 <label for="jenis">Type: </label>
@@ -219,14 +220,14 @@
                         <form @submit.prevent="editmenu">
                             <div class="modal-body">
                                 <div class="card" style="width: 18rem;">
-                                    <img :src="'http://localhost/UKL-Cafe/cafelaravel/public/images/' + image"
+                                    <img :src="'http://localhost/UKL_Kasir/uklcafe/public/images/' + image"
                                         class="card-img-top" alt="...">
                                 </div>
                                 <hr>
                                 <div class="row">
                                     <div class="col">
                                         <label for="nama">Nama Menu:</label>
-                                        <input type="text" class="form-control" v-model="detailmenu.nama" required>
+                                        <input type="text" class="form-control" v-model="detailmenu.nama_menu" required>
                                     </div>
 
                                     <div class="col">
@@ -239,8 +240,8 @@
                                     <div class="col">
                                         <label for="jenis">Type:</label>
                                         <select class="form-control" v-model="detailmenu.jenis" required id="jenis">
-                                            <option value="makanan">Makanan</option>
-                                            <option value="minuman">Minuman</option>
+                                            <option value="Makanan">Makanan</option>
+                                            <option value="Minuman">Minuman</option>
                                         </select>
                                     </div>
 
@@ -278,7 +279,7 @@
                                 <input type="file" class="form-control" @change="updatefoto($event)" id="foto" required>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Close</button>
                                 <button type="submit" class="btn btn-primary">Save changes</button>
                             </div>
                         </form>
@@ -315,7 +316,8 @@ export default {
         filter_menu() {
             let filter_data = this.datamenu
             if (this.carimenu) {
-                filter_data = filter_data.filter(menu => menu.nama.toString().toLowerCase().includes(this.carimenu.toLowerCase()))
+                filter_data = filter_data.filter(menu => menu.nama_menu.toString().toLowerCase().includes(this.carimenu.toLowerCase()))
+                // cari di tabel menu yang nama nya nama_menu => sesuai sama yang di input di searchnya
             }
             return filter_data
         }
@@ -335,7 +337,7 @@ export default {
                     (response) => {
                         console.log(response)
                         this.detailmenu.id_menu = response.data[0].id_menu
-                        this.detailmenu.nama = response.data[0].nama
+                        this.detailmenu.nama_menu = response.data[0].nama_menu
                         this.image = response.data[0].foto
                         this.detailmenu.jenis = response.data[0].jenis
                         this.detailmenu.harga = response.data[0].harga
@@ -348,7 +350,7 @@ export default {
         upload() {
             let form = new FormData
             form.append('foto', this.menu.foto)
-            form.append('nama', this.menu.nama)
+            form.append('nama_menu', this.menu.nama_menu)
             form.append('jenis', this.menu.jenis)
             form.append('harga', this.menu.harga)
 
