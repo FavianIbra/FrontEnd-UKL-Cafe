@@ -16,7 +16,6 @@
                 <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 px-lg-5 py-3 py-lg-0">
                     <a href="" class="navbar-brand p-0">
                         <h1 class="text-primary m-0"><i class="fa fa-utensils me-3"></i>Restoran</h1>
-                        <!-- <img src="img/logo.png" alt="Logo"> -->
                     </a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                         <span class="fa fa-bars"></span>
@@ -25,8 +24,8 @@
                         <div class="navbar-nav ms-auto py-0 pe-4">
                             <a href="/kasir" class="nav-item nav-link">Home</a>
                             <a href="/transaksi" class="nav-item nav-link">transaction</a>
-                            <a href="/ongoing" class="nav-item nav-link active">On Going</a>
-                            <a href="/history" class="nav-item nav-link">History</a>
+                            <a href="/ongoing" class="nav-item nav-link ">On Going</a>
+                            <a href="/history" class="nav-item nav-link active">History</a>
                             <!-- <a href="/menu" class="nav-item nav-link">Menu</a> -->
                             <a href="#" class="nav-item nav-link">LogOut</a>
                         </div>
@@ -36,7 +35,7 @@
 
                 <div class="container-xxl py-5 bg-dark hero-header mb-5">
                     <div class="container text-center my-5 pt-5 pb-4">
-                        <h1 class="display-3 text-white mb-3 animated slideInDown">On Going</h1>
+                        <h1 class="display-3 text-white mb-3 animated slideInDown">History</h1>
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb justify-content-center text-uppercase">
                                 <li class="breadcrumb-item"><a href="#">Home</a></li>
@@ -49,35 +48,28 @@
             </div>
             <!-- Navbar & Hero End -->
 
-
-            <!-- Service Start -->
             <div class="container-xxl py-5">
                 <div class="container">
                     <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
                         <h5 class="section-title ff-secondary text-center text-primary fw-normal mb-4">On Going</h5>
                     </div>
-                    <input type="number" class="form-control mb-4" v-model="cari_meja" placeholder="Cari nomor meja..."
-                        autocomplete="off">
-                    <div class="row g-4">
+                    <!-- <input type="number" class="form-control mb-4" v-model="cari_history" placeholder="Cari data history.."
+                        autocomplete="off"> -->
 
-                        <div data-bs-toggle="modal" data-bs-target="#finish" @click="handleclick(meja)"
-                            class="col-lg-3 col-sm-6 wow fadeInUp" v-for="meja in filter_ongoing" :key="meja.id_meja"
-                            data-wow-delay="0.3s">
-                            <div class="service-item rounded pt-3">
-                                <div class="p-4">
-                                    <i class="fa fa-3x fa-utensils text-primary mb-4"></i>
-                                    <h5>Meja Nomor : {{ meja.nomor_meja }}</h5>
-                                    <p>
-                                        <span v-if="meja.status == 'Digunakan'" class="badge bg-danger">Di Gunakan</span>
-                                    </p>
-                                </div>
-                            </div>
+                    <div class="card mb-3" v-for="history in history" :key="history.id_history">
+                        <div class="card-header">
+                            {{ history.tgl_transaksi }}
                         </div>
-
+                        <div class="card-body">
+                            <h5 class="card-title">Pembeli : <b> {{ history.nama_pelanggan }}</b></h5>
+                            <a href="#" class="btn btn-outline-dark" data-bs-toggle="modal"
+                                @click="getselecthistory(history)" data-bs-target="#detailhistory">Detail</a>
+                        </div>
                     </div>
+
+
                 </div>
             </div>
-            <!-- Service End -->
 
 
             <!-- Footer Start -->
@@ -148,130 +140,80 @@
             </div>
             <!-- Footer End -->
 
-            <!-- FINISH TRANSAKSI -->
-            <div class="modal fade" id="finish" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <!-- Detail History -->
+            <div class="modal fade" id="detailhistory" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">SELESAIKAN TRANSAKSI</h1>
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <form @submit.prevent="selesaitransaksi">
-                            <div class="modal-body">
-                                <span style="font-family: 'Times New Roman', Times, serif;">ATAS NAMA: <b>{{
-                                    detail_ongoing.nama_pelanggan }}</b> </span>
-                                <br>
-                                <span style="font-family: 'Times New Roman', Times, serif;">TOTAL HARGA: <b>{{
-                                    totalharga }}</b> </span>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Selesai</button>
-                            </div>
-                        </form>
+                        <div class="modal-body">
+                            <table class="table table-hover table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Kasir</th>
+                                        <th>Nama</th>
+                                        <th>Jumlah</th>
+                                        <th>Harga</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(history, nomor) in detail" :key="history.id_history">
+                                    <td>{{ nomor + 1 }}</td>
+                                    <td>{{ history.nama }}</td>
+                                    <td>{{ history.nama_pelanggan}}</td>
+                                    <td>{{ history.total_pesanan }}</td>
+                                    <td>{{ history.total_harga}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
                     </div>
                 </div>
             </div>
-            <!-- END FINISH TRANSAKSI -->
-
-            <!-- Back to Top -->
-            <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
         </div>
     </div>
 </template>
 <script>
 import axios from 'axios'
-import swal from 'sweetalert'
 
 export default {
     data() {
         return {
-            ongoing: {},
-            totalharga: '',
-            detail_ongoing: {},
-            cari_meja: ''
+            history: {},
+            detail: {}
         }
     },
     mounted() {
-        this.getongoing()
-        this.gettotalharga()
-    },
-    computed: {
-        filter_ongoing() {
-            let filtered = this.ongoing
-            if (this.cari_meja) {
-                filtered = filtered.filter(meja => meja.nomor_meja.toString().toLowerCase().includes(this.cari_meja.toLowerCase()))
-            }
-            return filtered
-        }
+        this.gethistory()
     },
     methods: {
-        getongoing() {
-            axios.get('http://localhost:8000/api/getongoing')
+        gethistory() {
+            axios.get('http://localhost:8000/api/history')
                 .then(
                     ({ data }) => {
                         console.log(data)
-                        this.ongoing = data
+                        this.history = data
                     }
                 )
         },
-        handleclick(meja) {
-            this.getdetailtransaksi(meja)
-            this.gettotalharga(meja)
-        },
-        getdetailtransaksi(meja) {
-            axios.get('http://localhost:8000/api/get_ongoing_transaksi/' + meja.id_meja)
+       
+        getselecthistory(history) {
+            axios.get('http://localhost:8000/api/history/' + history.id_pelayanan)
                 .then(
                     ({ data }) => {
                         console.log(data)
-                        this.detail_ongoing = data
+                        this.detail = data
                     }
                 )
-        },
-        gettotalharga(meja) {
-            axios.get('http://localhost:8000/api/gettotalharga/' + meja.id_meja)
-                .then(
-                    ({ data }) => {
-                        console.log(data)
-                        this.totalharga = data
-                    }
-                )
-        },
-        selesaitransaksi() {
-            swal({
-                icon: 'warning',
-                title: 'Complete the transaction?',
-                dangerMode: true,
-                buttons: true
-            }).then(
-                (response) => {
-                    if (response) {
-                        axios.put('http://localhost:8000/api/done_transaksi/' + this.detail_ongoing.id_meja, this.detail_ongoing.id_meja)
-                            .then(
-                                (response) => {
-                                    console.log(response)
-                                    swal({
-                                        icon: 'success',
-                                        title: 'Success'
-                                    })
-                                    setTimeout(() => {
-                                        location.href="/history"
-                                    }, 1200);
-                                }
-                            )
-                            .catch(
-                                (error) => {
-                                    console.log(error)
-                                    swal({
-                                        title: 'Failed',
-                                        icon: 'error'
-                                    })
-                                }
-                            )
-                    }
-                }
-            )
         }
     }
 }
 </script>
+

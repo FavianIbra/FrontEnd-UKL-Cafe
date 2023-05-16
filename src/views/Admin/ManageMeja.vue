@@ -23,12 +23,11 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navbarCollapse">
                         <div class="navbar-nav ms-auto py-0 pe-4">
-                            <a href="/admin" class="nav-item nav-link active">Home</a>
+                            <a href="/admin" class="nav-item nav-link ">Home</a>
                             <a href="/manageuser" class="nav-item nav-link">User</a>
-                            <a href="/managetable" class="nav-item nav-link">Table</a>
+                            <a href="/managetable" class="nav-item nav-link active">Table</a>
                             <a href="/managemenu" class="nav-item nav-link">Menu</a>
-                            <a href="#" class="nav-item nav-link">About</a>
-                            <a href="#" class="nav-item nav-link">Logout</a>
+                            
 
                             <!-- <a href="contact.html" class="nav-item nav-link">Report</a> -->
                         </div>
