@@ -11,6 +11,13 @@ import TransaksiPage from '../views/Kasir/TransaksiPage.vue'
 import AddMenu from '../views/Kasir/AddMenu.vue'
 import OnGoing from '../views/Kasir/OnGoing.vue'
 import HistoryView from '../views/Kasir/HistoryView.vue'
+import PrintNota from '../views/Kasir/PrintNota.vue'
+
+
+import ManagerHome from '../views/Manager/ManagerHome.vue'
+import ProfitView from '../views/Manager/ProfitView.vue'
+import FilterTransaksi from '../views/Manager/FilterTransaksi.vue'
+import AllTransaksi from '../views/Manager/AllTransaksi.vue'
 
 
 
@@ -52,6 +59,26 @@ const routes = [
   {
     path: '/history',
     component: HistoryView
+  },
+  {
+    path: '/print/:id',
+    component: PrintNota
+  },
+  {
+    path: '/manager',
+    component: ManagerHome
+  },
+  {
+    path: '/filtertransaksi',
+    component: FilterTransaksi
+  },
+  {
+    path: '/alltransaksi',
+    component: AllTransaksi
+  },
+  {
+    path: '/profit',
+    component: ProfitView
   }
 ]
 

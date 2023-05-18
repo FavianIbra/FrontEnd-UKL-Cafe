@@ -1,14 +1,7 @@
 <template>
     <div>
         <div class="container-xxl bg-white p-0">
-            <!-- Spinner Start -->
-            <!-- <div id="spinner"
-                class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-                <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-                    <span class="sr-only">Loading...</span>
-                </div>
-            </div> -->
-            <!-- Spinner End -->
+
 
 
             <!-- Navbar & Hero Start -->
@@ -23,25 +16,24 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navbarCollapse">
                         <div class="navbar-nav ms-auto py-0 pe-4">
-                            <a href="/kasir" class="nav-item nav-link">Home</a>
-                            <a href="/transaksi" class="nav-item nav-link">transaction</a>
-                            <a href="/ongoing" class="nav-item nav-link active">On Going</a>
-                            <a href="/history" class="nav-item nav-link">History</a>
-                            <!-- <a href="/menu" class="nav-item nav-link">Menu</a> -->
+                            <a href="/manager" class="nav-item nav-link">Home</a>
+                            <a href="/alltransaksi" class="nav-item nav-link">All Transaction</a>
+                            <a href="/filtertransaksi" class="nav-item nav-link active">Filter Transaction</a>
+                            <a href="/profit" class="nav-item nav-link">Profit</a>
                             <a href="#" class="nav-item nav-link">LogOut</a>
                         </div>
-                        <a href="" class="btn btn-primary py-2 px-4">Cashier</a>
+                        <a href="" class="btn btn-primary py-2 px-4">Manager</a>
                     </div>
                 </nav>
 
                 <div class="container-xxl py-5 bg-dark hero-header mb-5">
                     <div class="container text-center my-5 pt-5 pb-4">
-                        <h1 class="display-3 text-white mb-3 animated slideInDown">On Going</h1>
+                        <h1 class="display-3 text-white mb-3 animated slideInDown">Filter Transaction</h1>
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb justify-content-center text-uppercase">
                                 <li class="breadcrumb-item"><a href="#">Home</a></li>
                                 <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                                <li class="breadcrumb-item text-white active" aria-current="page">Service</li>
+                                <li class="breadcrumb-item text-white active" aria-current="page">Transaction</li>
                             </ol>
                         </nav>
                     </div>
@@ -54,27 +46,33 @@
             <div class="container-xxl py-5">
                 <div class="container">
                     <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                        <h5 class="section-title ff-secondary text-center text-primary fw-normal mb-4">On Going</h5>
+                        <h5 class="section-title ff-secondary text-center text-primary fw-normal">Transaction History</h5>
                     </div>
-                    <input type="number" class="form-control mb-4" v-model="cari_meja" placeholder="Cari nomor meja..."
-                        autocomplete="off">
-                    <div class="row g-4">
 
-                        <div data-bs-toggle="modal" data-bs-target="#finish" @click="handleclick(meja)"
-                            class="col-lg-3 col-sm-6 wow fadeInUp" v-for="meja in filter_ongoing" :key="meja.id_meja"
-                            data-wow-delay="0.3s">
-                            <div class="service-item rounded pt-3">
-                                <div class="p-4">
-                                    <i class="fa fa-3x fa-utensils text-primary mb-4"></i>
-                                    <h5>Meja Nomor : {{ meja.nomor_meja }}</h5>
-                                    <p>
-                                        <span v-if="meja.status == 'Digunakan'" class="badge bg-danger">Di Gunakan</span>
-                                    </p>
-                                </div>
-                            </div>
+                    <div class="row mt-2">
+                        <div class="col">
+                            <input type="text" class="form-control" v-model="cari_kasir" autocomplete="off"
+                                placeholder="Cari nama kasir...">
                         </div>
-
+                        <div class="col">
+                            <input type="date" class="form-control" v-model="tgl_transaksi"
+                                placeholder="Cari tgl transaksi...">
+                        </div>
                     </div>
+
+                    <div class="card mt-4" v-for="t in filterdata" :key="t.id_history">
+                        <div class="card-header">
+                            Transaksi pada tanggal {{ t.tgl_transaksi }}
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">Pelanggan atas nama {{ t.nama_pelanggan }}</h5>
+                            <p class="card-text">Di layani oleh kasir {{ t.nama }}</p>
+                            <a href="#" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#detail"
+                                @click="getfunction(t)">See detail</a>
+                        </div>
+                    </div>
+
+
                 </div>
             </div>
             <!-- Service End -->
@@ -148,130 +146,115 @@
             </div>
             <!-- Footer End -->
 
-            <!-- FINISH TRANSAKSI -->
-            <div class="modal fade" id="finish" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <!-- DETAIL -->
+            <div class="modal fade" id="detail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">SELESAIKAN TRANSAKSI</h1>
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">DETAIL</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <form @submit.prevent="selesaitransaksi">
-                            <div class="modal-body">
-                                <span style="font-family: 'Times New Roman', Times, serif;">ATAS NAMA: <b>{{
-                                    detail_ongoing.nama_pelanggan }}</b> </span>
-                                <br>
-                                <span style="font-family: 'Times New Roman', Times, serif;">TOTAL HARGA: <b>{{
-                                    totalharga }}</b> </span>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Selesai</button>
-                            </div>
-                        </form>
+                        <div class="modal-body">
+                            <table class="table table-hover table-striped">
+                                <thead class="bg-light text dark">
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Menu</th>
+                                        <th>Jumlah</th>
+                                        <th>Harga</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(t, nomor) in detail" :key="nomor">
+                                        <td>{{ nomor + 1 }}</td>
+                                        <td>{{ t.nama }}</td>
+                                        <td>{{ t.total_pesanan }}</td>
+                                        <td>{{ t.total_harga }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p>Total Harga: <b>{{ total }}</b></p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
                     </div>
                 </div>
             </div>
-            <!-- END FINISH TRANSAKSI -->
+            <!-- END DETAIL -->
 
             <!-- Back to Top -->
             <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+
         </div>
     </div>
 </template>
-<script>
-import axios from 'axios'
-import swal from 'sweetalert'
 
+<script>
+import axios from 'axios';
+// import axios from 'axios'
+// import { filter } from 'vue/types/umd';
+// import { filter } from 'vue/types/umd'
 export default {
     data() {
         return {
-            ongoing: {},
-            totalharga: '',
-            detail_ongoing: {},
-            cari_meja: ''
+            cari_kasir: '',
+            tgl_transaksi: '',
+            datatransaksi: {},
+            detail: {},
+            total: ''
         }
     },
     mounted() {
-        this.getongoing()
-        this.gettotalharga()
+        this.gethistory()
     },
     computed: {
-        filter_ongoing() {
-            let filtered = this.ongoing
-            if (this.cari_meja) {
-                filtered = filtered.filter(meja => meja.nomor_meja.toString().toLowerCase().includes(this.cari_meja.toLowerCase()))
+        filterdata() {
+            let filterdata = this.datatransaksi
+            if (this.cari_kasir) {
+                filterdata = filterdata.filter(t => t.nama.toLowerCase().toString().includes(this.cari_kasir.toLowerCase()))
             }
-            return filtered
+            if (this.tgl_transaksi) {
+                filterdata = filterdata.filter(t => t.tgl_transaksi.includes(this.tgl_transaksi))
+            }
+            if (!this.cari_kasir && !this.tgl_transaksi) {
+                filterdata = false
+            }
+            return filterdata
         }
     },
     methods: {
-        getongoing() {
-            axios.get('http://localhost:8000/api/getongoing')
+        gethistory() {
+            axios.get('http://localhost:8000/api/history')
                 .then(
                     ({ data }) => {
                         console.log(data)
-                        this.ongoing = data
+                        this.datatransaksi = data
                     }
                 )
         },
-        handleclick(meja) {
-            this.getdetailtransaksi(meja)
-            this.gettotalharga(meja)
+        getfunction(history) {
+            this.gettotal(history)
+            this.getdetail(history)
         },
-        getdetailtransaksi(meja) {
-            axios.get('http://localhost:8000/api/get_ongoing_transaksi/' + meja.id_meja)
+        gettotal(history) {
+            axios.get('http://localhost:8000/api/gettotal/' + history.id_pelayanan)
                 .then(
                     ({ data }) => {
                         console.log(data)
-                        this.detail_ongoing = data
+                        this.total = data
                     }
                 )
         },
-        gettotalharga(meja) {
-            axios.get('http://localhost:8000/api/gettotalharga/' + meja.id_meja)
+        getdetail(history) {
+            axios.get('http://localhost:8000/api/history/' + history.id_pelayanan)
                 .then(
                     ({ data }) => {
                         console.log(data)
-                        this.totalharga = data
+                        this.detail = data
                     }
                 )
-        },
-        selesaitransaksi() {
-            swal({
-                icon: 'warning',
-                title: 'Complete the transaction?',
-                dangerMode: true,
-                buttons: true
-            }).then(
-                (response) => {
-                    if (response) {
-                        axios.put('http://localhost:8000/api/done_transaksi/' + this.detail_ongoing.id_meja, this.detail_ongoing.id_meja)
-                            .then(
-                                (response) => {
-                                    console.log(response)
-                                    swal({
-                                        icon: 'success',
-                                        title: 'Success'
-                                    })
-                                    setTimeout(() => {
-                                        location.reload()
-                                        location.href= '/print/' + this.detail_ongoing.id_pelayanan
-                                    }, 1200);
-                                }
-                            )
-                            .catch(
-                                (error) => {
-                                    console.log(error)
-                                    swal({
-                                        title: 'Failed',
-                                        icon: 'error'
-                                    })
-                                }
-                            )
-                    }
-                }
-            )
         }
     }
 }
