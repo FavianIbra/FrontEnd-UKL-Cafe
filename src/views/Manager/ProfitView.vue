@@ -20,9 +20,7 @@
                             <a href="/alltransaksi" class="nav-item nav-link">All Transaction</a>
                             <a href="/filtertransaksi" class="nav-item nav-link">Filter Transaction</a>
                             <a href="/profit" class="nav-item nav-link active">Profit</a>
-                            <a href="#" class="nav-item nav-link">LogOut</a>
                         </div>
-                        <a href="" class="btn btn-primary py-2 px-4">Manager</a>
                     </div>
                 </nav>
 
@@ -74,6 +72,12 @@
                 </div>
             </div>
             <!-- Service End -->
+
+            <!-- Chart -->
+
+            <div style="width: 300px; height: 300px; margin: 0px 40% 0px;" class="mt-4">
+                <canvas id="piechart" width="300" height="300"></canvas>
+            </div>
 
 
             <!-- Footer Start -->
@@ -191,6 +195,7 @@
 
 <script>
 import axios from 'axios';
+import Chart from 'chart.js/auto'
 export default {
     data() {
         return {
@@ -198,10 +203,43 @@ export default {
             cari_tgl: '',
             profitbulan: '',
             profithari: '',
+            datamenu: {}
         }
     },
     mounted() {
         this.getdate()
+        axios.get('http://localhost:8000/api/getmenu')
+            .then(
+                (response) => {
+                    console.log(response)
+                    const data = response.data.map(item => item.jumlah_pesan)
+                    const nama = response.data.map(item => item.nama_menu)
+                    let colors = []
+                    for (let i = 0; i < data.length; i++) {
+                        let color = '#' + Math.floor(Math.random() * 16777215).toString(16)
+                        colors.push(color)
+                    }
+                    const chartData = {
+                        labels: nama,
+                        datasets: [{
+                            data: data,
+                            backgroundColor: colors
+                        }]
+                    }
+                    new Chart(document.getElementById('piechart'), {
+                        type: 'bar',
+                        labels: 'Data Menu',
+                        data: chartData,
+                        options: {
+                            responsive: true
+                        }
+                    })
+                })
+            .catch(
+                err => {
+                    console.log(err)
+                }
+            )
     },
     computed: {
     },

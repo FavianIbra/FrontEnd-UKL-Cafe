@@ -20,9 +20,7 @@
                             <a href="/alltransaksi" class="nav-item nav-link">All Transaction</a>
                             <a href="/filtertransaksi" class="nav-item nav-link active">Filter Transaction</a>
                             <a href="/profit" class="nav-item nav-link">Profit</a>
-                            <a href="#" class="nav-item nav-link">LogOut</a>
                         </div>
-                        <a href="" class="btn btn-primary py-2 px-4">Manager</a>
                     </div>
                 </nav>
 

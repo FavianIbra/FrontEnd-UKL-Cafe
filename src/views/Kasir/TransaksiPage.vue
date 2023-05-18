@@ -28,9 +28,7 @@
                             <a href="/ongoing" class="nav-item nav-link">On Going</a>
                             <a href="/history" class="nav-item nav-link">History</a>
                             <!-- <a href="/menu" class="nav-item nav-link">Menu</a> -->
-                            <a href="#" class="nav-item nav-link">LogOut</a>
                         </div>
-                        <a href="" class="btn btn-primary py-2 px-4">Cashier</a>
                     </div>
                 </nav>
 

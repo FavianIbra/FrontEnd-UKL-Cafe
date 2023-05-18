@@ -28,9 +28,7 @@
                             <a href="/ongoing" class="nav-item nav-link">On Going</a>
                             <a href="/history" class="nav-item nav-link">History</a>
                             <!-- <a href="/menu" class="nav-item nav-link">Menu</a> -->
-                            <a href="#" class="nav-item nav-link">LogOut</a>
                         </div>
-                        <a href="" class="btn btn-primary py-2 px-4">Cashier</a>
                     </div>
                 </nav>
 
@@ -175,7 +173,7 @@
                         <form @submit.prevent="addtocart">
                             <div class="modal-body">
                                 <label for="nama">Nama:</label>
-                                <input type="text" class="form-control" v-model="detailmenu.nama_menu">
+                                <input type="text" class="form-control" v-model="detailmenu.nama_menu" readonly>
                                 <input type="hidden" v-model="detailmenu.id_menu">
 
                                 <label for="jumlah">Jumlah:</label>
