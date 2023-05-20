@@ -27,6 +27,7 @@
                             <a href="/manageuser" class="nav-item nav-link">User</a>
                             <a href="/managetable" class="nav-item nav-link">Table</a>
                             <a href="/managemenu" class="nav-item nav-link active">Menu</a>
+                            <a @click="logout" href="#" class="nav-item nav-link ">Logout</a>
 
                         </div>
                     </div>
@@ -484,6 +485,28 @@ export default {
                             title: 'Your menu is safe',
                             button: true
                         })
+                    }
+                }
+            )
+        },
+        logout(){
+            swal({
+                icon: 'warning',
+                title: 'Log Out?',
+                dangerMode: true,
+                buttons: true
+            }).then(
+                (response) => {
+                    if(response){
+                        localStorage.removeItem('token')
+                        localStorage.removeItem('role')
+                        swal({
+                            icon: 'success',
+                            button: false
+                        })
+                        setTimeout(() => {
+                            location.href= '/'
+                        }, 1200);
                     }
                 }
             )

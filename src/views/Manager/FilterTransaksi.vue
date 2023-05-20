@@ -20,6 +20,7 @@
                             <a href="/alltransaksi" class="nav-item nav-link">All Transaction</a>
                             <a href="/filtertransaksi" class="nav-item nav-link active">Filter Transaction</a>
                             <a href="/profit" class="nav-item nav-link">Profit</a>
+                            <a @click="logout" href="#" class="nav-item nav-link ">Logout</a>
                         </div>
                     </div>
                 </nav>
@@ -32,6 +33,7 @@
                                 <li class="breadcrumb-item"><a href="#">Home</a></li>
                                 <li class="breadcrumb-item"><a href="#">Pages</a></li>
                                 <li class="breadcrumb-item text-white active" aria-current="page">Transaction</li>
+                                
                             </ol>
                         </nav>
                     </div>
@@ -191,6 +193,7 @@
 
 <script>
 import axios from 'axios';
+import swal from 'sweetalert'
 // import axios from 'axios'
 // import { filter } from 'vue/types/umd';
 // import { filter } from 'vue/types/umd'
@@ -253,6 +256,28 @@ export default {
                         this.detail = data
                     }
                 )
+        },
+        logout(){
+            swal({
+                icon: 'warning',
+                title: 'Log Out?',
+                dangerMode: true,
+                buttons: true
+            }).then(
+                (response) => {
+                    if(response){
+                        localStorage.removeItem('token')
+                        localStorage.removeItem('role')
+                        swal({
+                            icon: 'success',
+                            button: false
+                        })
+                        setTimeout(() => {
+                            location.href= '/'
+                        }, 1200);
+                    }
+                }
+            )
         }
     }
 }

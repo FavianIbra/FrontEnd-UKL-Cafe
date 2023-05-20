@@ -27,6 +27,7 @@
                             <a href="/transaksi" class="nav-item nav-link active">transaction</a>
                             <a href="/ongoing" class="nav-item nav-link">On Going</a>
                             <a href="/history" class="nav-item nav-link">History</a>
+                            <a @click="logout" href="#" class="nav-item nav-link ">Logout</a>
                             <!-- <a href="/menu" class="nav-item nav-link">Menu</a> -->
                         </div>
                     </div>
@@ -286,6 +287,28 @@ export default {
                                     })
                                 }
                             )
+                    }
+                }
+            )
+        },
+        logout(){
+            swal({
+                icon: 'warning',
+                title: 'Log Out?',
+                dangerMode: true,
+                buttons: true
+            }).then(
+                (response) => {
+                    if(response){
+                        localStorage.removeItem('token')
+                        localStorage.removeItem('role')
+                        swal({
+                            icon: 'success',
+                            button: false
+                        })
+                        setTimeout(() => {
+                            location.href= '/'
+                        }, 1200);
                     }
                 }
             )

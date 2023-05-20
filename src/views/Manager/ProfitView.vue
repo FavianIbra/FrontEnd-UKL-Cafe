@@ -20,6 +20,7 @@
                             <a href="/alltransaksi" class="nav-item nav-link">All Transaction</a>
                             <a href="/filtertransaksi" class="nav-item nav-link">Filter Transaction</a>
                             <a href="/profit" class="nav-item nav-link active">Profit</a>
+                            <a @click="logout" href="#" class="nav-item nav-link ">Logout</a>
                         </div>
                     </div>
                 </nav>
@@ -196,6 +197,7 @@
 <script>
 import axios from 'axios';
 import Chart from 'chart.js/auto'
+import swal from 'sweetalert'
 export default {
     data() {
         return {
@@ -270,6 +272,28 @@ export default {
             //         button: true
             //     })
             // }
+        },
+        logout(){
+            swal({
+                icon: 'warning',
+                title: 'Log Out?',
+                dangerMode: true,
+                buttons: true
+            }).then(
+                (response) => {
+                    if(response){
+                        localStorage.removeItem('token')
+                        localStorage.removeItem('role')
+                        swal({
+                            icon: 'success',
+                            button: false
+                        })
+                        setTimeout(() => {
+                            location.href= '/'
+                        }, 1200);
+                    }
+                }
+            )
         }
     }
 }

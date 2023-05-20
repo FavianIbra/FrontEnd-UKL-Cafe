@@ -27,6 +27,7 @@
                             <a href="/manageuser" class="nav-item nav-link">User</a>
                             <a href="/managetable" class="nav-item nav-link active">Table</a>
                             <a href="/managemenu" class="nav-item nav-link">Menu</a>
+                            <a @click="logout" href="#" class="nav-item nav-link ">Logout</a>
                             
 
                             <!-- <a href="contact.html" class="nav-item nav-link">Report</a> -->
@@ -333,6 +334,28 @@ export default {
                                     })
                                 }
                             )
+                    }
+                }
+            )
+        },
+        logout(){
+            swal({
+                icon: 'warning',
+                title: 'Log Out?',
+                dangerMode: true,
+                buttons: true
+            }).then(
+                (response) => {
+                    if(response){
+                        localStorage.removeItem('token')
+                        localStorage.removeItem('role')
+                        swal({
+                            icon: 'success',
+                            button: false
+                        })
+                        setTimeout(() => {
+                            location.href= '/'
+                        }, 1200);
                     }
                 }
             )

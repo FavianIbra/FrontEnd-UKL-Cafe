@@ -18,6 +18,7 @@
                             <a href="/manageuser" class="nav-item nav-link active">User</a>
                             <a href="/managetable" class="nav-item nav-link">Table</a>
                             <a href="/managemenu" class="nav-item nav-link">Menu</a>
+                            <a @click="logout" href="#" class="nav-item nav-link ">Logout</a>
 
                             <!-- <a href="contact.html" class="nav-item nav-link">Report</a> -->
                         </div>
@@ -195,7 +196,7 @@
                             <select v-model="user.role" id="role" class="form-control" required>
                                 <option value="Kasir">Kasir</option>
                                 <option value="Admin">Admin</option>
-                                <option value="Manager">Manager</option>
+                                <option value="Manajer">Manager</option>
                             </select>
 
                         </div>
@@ -242,7 +243,7 @@
                             <select class="form-control" v-model="edit.role" required id="Role">
                                 <option value="Admin">Admin</option>
                                 <option value="Kasir">Kasir</option>
-                                <option value="Manager">Manager</option>
+                                <option value="Manajer">Manager</option>
                             </select>
 
                         </div>
@@ -422,6 +423,28 @@ export default {
                             title: 'Your data is safe',
                             button: true
                         })
+                    }
+                }
+            )
+        },
+        logout(){
+            swal({
+                icon: 'warning',
+                title: 'Log Out?',
+                dangerMode: true,
+                buttons: true
+            }).then(
+                (response) => {
+                    if(response){
+                        localStorage.removeItem('token')
+                        localStorage.removeItem('role')
+                        swal({
+                            icon: 'success',
+                            button: false
+                        })
+                        setTimeout(() => {
+                            location.href= '/'
+                        }, 1200);
                     }
                 }
             )

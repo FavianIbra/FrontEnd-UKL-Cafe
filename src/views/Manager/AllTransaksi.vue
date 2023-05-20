@@ -20,6 +20,8 @@
                             <a href="/alltransaksi" class="nav-item nav-link active">All Transaction</a>
                             <a href="/filtertransaksi" class="nav-item nav-link">Filter Transaction</a>
                             <a href="/profit" class="nav-item nav-link">Profit</a>
+                            <a @click="logout" href="#" class="nav-item nav-link ">Logout</a>
+
                         </div>
                     </div>
                 </nav>
@@ -183,6 +185,7 @@
 
 <script>
 import axios from 'axios'
+import swal from 'sweetalert'
 // import { filter } from 'vue/types/umd'
 export default {
     data() {
@@ -237,6 +240,28 @@ export default {
                         this.detail = data
                     }
                 )
+        },
+        logout(){
+            swal({
+                icon: 'warning',
+                title: 'Log Out?',
+                dangerMode: true,
+                buttons: true
+            }).then(
+                (response) => {
+                    if(response){
+                        localStorage.removeItem('token')
+                        localStorage.removeItem('role')
+                        swal({
+                            icon: 'success',
+                            button: false
+                        })
+                        setTimeout(() => {
+                            location.href= '/'
+                        }, 1200);
+                    }
+                }
+            )
         }
     }
 }

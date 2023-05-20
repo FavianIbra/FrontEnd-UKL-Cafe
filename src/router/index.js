@@ -18,12 +18,17 @@ import ManagerHome from '../views/Manager/ManagerHome.vue'
 import ProfitView from '../views/Manager/ProfitView.vue'
 import FilterTransaksi from '../views/Manager/FilterTransaksi.vue'
 import AllTransaksi from '../views/Manager/AllTransaksi.vue'
+import LoginPage from '../views/LoginPage.vue'
 
 
 
 Vue.use(VueRouter)
 
 const routes = [
+  {
+    path: '/',
+    component: LoginPage
+  },
   {
     path: '/admin',
     component: AdminHome
