@@ -20,6 +20,9 @@ import FilterTransaksi from '../views/Manager/FilterTransaksi.vue'
 import AllTransaksi from '../views/Manager/AllTransaksi.vue'
 import LoginPage from '../views/LoginPage.vue'
 
+import NotFound from '../views/NotFound.vue'
+import SalahAkses from '../views/SalahAkses.vue'
+
 
 
 Vue.use(VueRouter)
@@ -31,59 +34,123 @@ const routes = [
   },
   {
     path: '/admin',
-    component: AdminHome
+    component: AdminHome,
+    meta: {
+      requiresAuth: true,
+      allowedRoles: ['Admin']
+    }
   },
   {
     path: '/manageuser',
-    component: ManageUser
+    component: ManageUser,
+    meta: {
+      requiresAuth: true,
+      allowedRoles: ['Admin']
+    }
   },
   {
     path: '/managemenu',
-    component: ManageMenu
+    component: ManageMenu,
+    meta: {
+      requiresAuth: true,
+      allowedRoles: ['Admin']
+    }
   },
   {
     path: '/managetable',
-    component: ManageMeja
+    component: ManageMeja,
+    meta: {
+      requiresAuth: true,
+      allowedRoles: ['Admin']
+    }
   },
   {
     path: '/kasir',
-    component: KasirHome
+    component: KasirHome,
+    meta: {
+      requiresAuth: true,
+      allowedRoles: ['Kasir']
+    }
   },
   {
     path: '/transaksi',
-    component: TransaksiPage
+    component: TransaksiPage,
+    meta: {
+      requiresAuth: true,
+      allowedRoles: ['Kasir']
+    }
   },
   {
     path: '/addmenu',
-    component: AddMenu
+    component: AddMenu,
+    meta: {
+      requiresAuth: true,
+      allowedRoles: ['Kasir']
+    }
   },
   {
     path: '/ongoing',
-    component: OnGoing
+    component: OnGoing,
+    meta: {
+      requiresAuth: true,
+      allowedRoles: ['Kasir']
+    }
   },
   {
     path: '/history',
-    component: HistoryView
+    component: HistoryView,
+    meta: {
+      requiresAuth: true,
+      allowedRoles: ['Kasir']
+    }
   },
   {
     path: '/print/:id',
-    component: PrintNota
+    component: PrintNota,
+    meta: {
+      requiresAuth: true,
+      allowedRoles: ['Kasir']
+    }
   },
   {
     path: '/manager',
-    component: ManagerHome
+    component: ManagerHome,
+    meta: {
+      requiresAuth: true,
+      allowedRoles: ['Manajer']
+    }
   },
   {
     path: '/filtertransaksi',
-    component: FilterTransaksi
+    component: FilterTransaksi,
+    meta: {
+      requiresAuth: true,
+      allowedRoles: ['Manajer']
+    }
   },
   {
     path: '/alltransaksi',
-    component: AllTransaksi
+    component: AllTransaksi,
+    meta: {
+      requiresAuth: true,
+      allowedRoles: ['Manajer']
+    }
   },
   {
     path: '/profit',
-    component: ProfitView
+    component: ProfitView,
+    meta: {
+      requiresAuth: true,
+      allowedRoles: ['Manajer']
+    }
+  },
+  {
+    path: '*',
+    component: NotFound
+  },
+  {
+    path: '/forbidden',
+    component: SalahAkses
   }
 ]
 
@@ -94,3 +161,25 @@ const router = new VueRouter({
 })
 
 export default router
+
+router.beforeEach((to,form, next) => {
+  const requiresAuth = to.matched.some((record) => record.meta.requiresAuth)
+  if (requiresAuth) {
+    const userRole = localStorage.getItem("role")
+    if (!userRole) {
+      next({
+        path: '/'
+      })
+    } else {
+      if (to.meta.allowedRoles.includes(userRole)) {
+        next()
+      } else {
+        next({
+          path: '/forbidden'
+        })
+      }
+    }
+  } else {
+    next();
+  }
+})
